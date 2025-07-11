@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLACED your home - our hands | Quispamsis, NB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Poppins:wght@600;700;900&family=Dancing+Script:wght@700&family=Inter:wght@400;600;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8fafc; /* A very light gray, almost white */
+            color: #1a202c; /* Default text color */
+        }
+        h1, h2, h3, .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .font-dancing {
+            font-family: 'Dancing Script', cursive;
+        }
+        /* Specific Oswald font for market insights */
+        .font-oswald {
+            font-family: 'Oswald', sans-serif;
+        }
+        .hero-bg {
+            background-image: linear-gradient(rgba(10, 24, 52, 0.7), rgba(10, 24, 52, 0.7)), url('https://i.postimg.cc/QHK1rVgj/IMG-7070-1.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .lunai-chat-bubble {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+        }
+        .nav-link {
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #fb923c; /* Accent color on hover */
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .shed-filter-btn.active {
+            background-color: #0c4a6e; /* Darker blue for active filter */
+            color: white;
+        }
+        #lunai-chat-window {
+            height: 70vh;
+            max-height: 500px;
+        }
+
+        /* LunAI Blueprint specific styles */
+        .kpi-card {
+            background-color: #004AAD;
+            color: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .flowchart-arrow {
+            color: #008DDA;
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -31px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #008DDA;
+            border: 4px solid #F8F9FA;
+        }
+        .button-primary {
+            background-color: #008DDA;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+        }
+        .button-primary:hover {
+            background-color: #007bbd;
+            transform: translateY(-1px);
+        }
+        .button-primary:disabled {
+            background-color: #ace2e1;
+            cursor: not-allowed;
+        }
+        .lunai-chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px; /* Constrain max width for readability */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* Base height */
+            max-height: 400px; /* Max height to prevent excessive size */
+        }
+        @media (min-width: 768px) {
+            .lunai-chart-container {
+                height: 350px; /* Adjust height for larger screens */
+            }
+        }
+
+        /* Invoice Specific Styles (for within the modal) */
+        .invoice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            overflow-x: auto;
+        }
+        .editable-field {
+            border-bottom: 1px dashed #cbd5e1;
+            outline: none;
+            cursor: text;
+        }
+        .editable-field:hover {
+            border-bottom-color: #64748b;
+        }
+        .editable-field:focus {
+            border-bottom-color: #3b82f6;
+            box-shadow: 0 1px 0 0 #3b82f6;
+        }
+        @media print {
+            body {
+                background-color: #fff;
+                padding: 0;
+            }
+            .invoice-container {
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+                border-radius: 0;
+            }
+            .print-button, .email-button-container {
+                display: none;
+            }
+            .editable-field {
+                border-bottom: none;
+            }
+            .modal-content, .modal-backdrop {
+                display: none; /* Hide modal chrome when printing */
+            }
+        }
+        .header-center {
+            text-align: center;
+        }
+        .info-label {
+            display: inline-block;
+            width: 120px;
+            font-weight: 500;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        thead th {
+            border-bottom: 2px solid #cbd5e1;
+        }
+
+        /* Modal Specific Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            padding: 20px;
+            border-radius: 10px;
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            transform: translateY(-50px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .modal.show .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .modal-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #64748b;
+        }
+        /* Tiny Home Market Infographic specific styles from previous blueprint */
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+        }
+        .stat-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <header id="header" class="bg-slate-800 text-white p-4 sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#home" class="text-2xl font-poppins font-bold"><span class="text-orange-400">PLACED</span> your home - our hands</a>
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="#services" class="nav-link">Our Services</a>
+                <a href="#" id="openShedsPageBtn" class="nav-link">PLACED Sheds</a>
+                <a href="#maintenance-details" class="nav-link">PLACED Maintenance</a>
+                <a href="#handbook-main" class="nav-link">PLACED Handbook</a>
+                <a href="#" id="openMarketInsightsModalBtn" class="nav-link">Market Insights</a>
+                <a href="#lunai-vision" class="nav-link">LunAI</a>
+                <a href="#" id="openInvoiceToolBtn" class="nav-link">Invoice Tool</a>
+                <a href="#about" class="nav-link">About Us</a>
+                <a href="#contact" class="bg-orange-500 hover:bg-orange-600 px-4 py-2 rounded-md font-bold transition-colors">Get a Free Quote</a>
+            </nav>
+            <button id="mobile-menu-btn" class="md:hidden p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden mt-4">
+            <a href="#services" class="block py-2 px-4 text-sm hover:bg-slate-700 rounded">Our Services</a>
+            <a href="#" id="openShedsPageBtnMobile" class="block py-2 px-4 text-sm hover:bg-slate-700 rounded">PLACED Sheds</a>
+            <a href="#maintenance-details" class="block py-2 px-4 text-sm hover:bg-slate-700 rounded">PLACED Maintenance</a>
+            <a href="#handbook-main" class="block py-2 px-4 text-sm hover:bg-slate-700 rounded">PLACED Handbook</a>
+            <a href="#" id="openMarketInsightsModalBtnMobile" class="block py-2 px-4 text-sm hover:bg-slate-700 rounded">Market Insights</a>
+            <a href="#lunai-vision" class="block py-2 px-4 text-sm hover:bg-slate-700 rounded">LunAI</a>
+            <a href="#" id="openInvoiceToolBtnMobile" class="block py-2 px-4 text-sm hover:bg-slate-700 rounded">Invoice Tool</a>
+            <a href="#about" class="block py-2 px-4 text-sm hover:bg-slate-700 rounded">About Us</a>
+            <a href="#contact" class="block py-2 px-4 text-sm hover:bg-slate-700 rounded">Get a Free Quote</a>
+        </div>
+    </header>
+
+    <!-- Main Content Sections (Initially visible) -->
+    <div id="main-content-sections">
+        <section id="home" class="hero-bg text-white text-center py-24 md:py-32 px-4">
+            <div class="container mx-auto">
+                <h1 class="text-4xl md:text-6xl font-black font-poppins leading-tight mb-4">PLACED: Your Home, Our Hands.</h1>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto mb-8">PLACED: Ain't no place like home... because we're here to protect it. PLACED: Let's build your dream home. PLACED Exteriors: We've got your place covered, from our home to yours. </p>
+                <a href="#contact" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full text-lg transition-transform hover:scale-105 inline-block">Start Your Project Today</a>
+            </div>
+        </section>
+
+        <section id="services" class="py-20 bg-white">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold font-poppins mb-4">One Trusted Name. All Your Property Needs.</h2>
+                <p class="max-w-2xl mx-auto mb-12 text-slate-600">We've unified expert craftsmanship in roofing, outdoor structures, and home maintenance to provide a seamless, reliable experience for every property owner.</p>
+                <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+                    <div class="service-card bg-slate-50 rounded-lg shadow-lg p-8 transition-all duration-300 cursor-pointer" onclick="document.getElementById('roofing-details').scrollIntoView();">
+                        <img src="https://i.postimg.cc/D8AFC2C0-7AD9-4D7C-A715-F36FF0ED7AB4.jpg" alt="PLACED Roofing Icon" class="mx-auto mb-4 rounded-full w-24 h-24 object-cover">
+                        <h3 class="text-2xl font-bold font-poppins mb-2">PLACED Roofing</h3>
+                        <p class="mb-4 text-slate-600">Let's protect your home. Durable, expertly installed roofing systems designed for New Brunswick's climate.</p>
+                        <span class="font-bold text-sky-600 hover:text-sky-700">Explore Roofing Services &rarr;</span>
+                    </div>
+                    <div class="service-card bg-slate-50 rounded-lg shadow-lg p-8 transition-all duration-300 cursor-pointer" id="mainShedsCard">
+                        <img src="https://i.postimg.cc/mPT8xwHW/5624DD3C-12AF-466C-9133-2CC91E873E45(1).png" alt="PLACED Sheds Icon" class="mx-auto mb-4 rounded-full w-24 h-24 object-cover">
+                        <h3 class="text-2xl font-bold font-poppins mb-2">PLACED Sheds</h3>
+                        <p class="mb-4 text-slate-600">Nothing tiny about this announcement! Reclaim your yard with custom-built sheds, garages, and tiny homes.</p>
+                        <span class="font-bold text-orange-600 hover:text-orange-700">View Shed Models &rarr;</span>
+                    </div>
+                    <div class="service-card bg-slate-50 rounded-lg shadow-lg p-8 transition-all duration-300 cursor-pointer" onclick="document.getElementById('maintenance-details').scrollIntoView();">
+                        <img src="https://i.postimg.cc/ZBzWgfWr/AA80410-A-DCA1-4748-B01-F-4-F3-B1416205-A.jpg" alt="PLACED Maintenance Icon" class="mx-auto mb-4 rounded-full w-24 h-24 object-cover">
+                        <h3 class="text-2xl font-bold font-poppins mb-2">PLACED Maintenance</h3>
+                        <p class="mb-4 text-slate-600">Proactive property care to extend its life, from seasonal upkeep to essential repairs. Prevent small issues from becoming big problems.</p>
+                        <span class="font-bold text-emerald-600 hover:text-emerald-700">Discover Maintenance Plans &rarr;</span>
+                    </div>
+                    <div class="service-card bg-slate-50 rounded-lg shadow-lg p-8 transition-all duration-300 cursor-pointer">
+                        <img src="https://i.postimg.cc/F1369-E41-C8-BA-4-A01-87-D6-925-CD5-C6-B7-F5-1.jpg" alt="PLACED Santa's Helpers Icon" class="mx-auto mb-4 rounded-full w-24 h-24 object-cover">
+                        <h3 class="text-2xl font-bold font-poppins mb-2">PLACED Santa's Helpers</h3>
+                        <p class="mb-4 text-slate-600">Let us take the hassle out of holiday decorating! Professional Christmas light installation and removal for a sparkling season.</p>
+                        <span class="font-bold text-red-600 hover:text-red-700">Learn More &rarr;</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="roofing-details" class="py-20">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold font-poppins">PLACED Roofing: Expertly Protecting Your Place.</h2>
+                    <p class="max-w-3xl mx-auto mt-4 text-slate-600">From emergency repairs to full replacements, we deliver peace of mind with superior materials and a commitment to quality that's second to none. PLACED Roofing: Let's protect your home. </p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <img src="https://i.postimg.cc/4KfYn3c7/IMG-7091.jpg" alt="Shingle Roofing" class="mx-auto mb-4 rounded-lg w-full h-32 object-cover">
+                        <h3 class="font-bold text-xl mb-2">Shingle & Metal Roofing</h3>
+                        <p class="text-sm text-slate-600">Durable, aesthetic options to enhance and protect your home, including GAF Timberline HDZ and standing seam metal.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <img src="https://i.postimg.cc/sQ1190w3/IMG-7085.png" alt="Leak Repair" class="mx-auto mb-4 rounded-lg w-full h-32 object-cover">
+                        <h3 class="font-bold text-xl mb-2">Leak Detection & Repair</h3>
+                        <p class="text-sm text-slate-600">Fast, effective solutions to stop leaks in their tracks and prevent costly interior damage. We fix it right the first time.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <img src="https://i.postimg.cc/346NLCcm/IMG-7094.jpg" alt="Full Roof Replacement" class="mx-auto mb-4 rounded-lg w-full h-32 object-cover">
+                        <h3 class="font-bold text-xl mb-2">Full Replacements</h3>
+                        <p class="text-sm text-slate-600">A seamless process from tear-off to final inspection, ensuring your new roof is installed to the highest standards.</p>
+                    </div>
+                </div>
+                <div class="text-center mt-12">
+                    <a href="#contact" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-colors">Request a Roofing Inspection</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="maintenance-details" class="py-20 bg-slate-100">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold font-poppins">PLACED Maintenance: Proactive Care for Your Property.</h2>
+                    <p class="max-w-3xl mx-auto mt-4 text-slate-600">Our maintenance plans are designed to extend the lifespan of your property's critical systems, save you money on costly repairs, and give you peace of mind.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <img src="https://i.postimg.cc/rz0KD3DJ/IMG-7096.jpg" alt="Maintenance Plans" class="mx-auto mb-4 rounded-lg w-full h-32 object-cover">
+                        <h3 class="font-bold text-xl mb-2">Custom Maintenance Plans</h3>
+                        <p class="text-sm text-slate-600">Tailored schedules for your property's unique needs, ensuring all critical areas are regularly inspected and maintained.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <img src="https://i.postimg.cc/QFL5NsS1/IMG-7071-1.jpg" alt="Gutter & Exterior Care" class="mx-auto mb-4 rounded-lg w-full h-32 object-cover">
+                        <h3 class="font-bold text-xl mb-2">Gutter & Exterior Care</h3>
+                        <p class="text-sm text-slate-600">Cleaning, repair, and inspection of gutters, siding, and other exterior elements to prevent water damage and improve curb appeal.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <img src="https://i.postimg.cc/mcpgDyRJ/IMG-7101.png" alt="Seasonal Inspections" class="mx-auto mb-4 rounded-lg w-full h-32 object-cover">
+                        <h3 class="font-bold text-xl mb-2">Seasonal Inspections & Prep</h3>
+                        <p class="text-sm text-slate-600">Prepare your property for changing seasons with thorough inspections and necessary preventative measures.</p>
+                    </p>
+                    </div>
+                </div>
+                <div class="text-center mt-12">
+                    <a href="#contact" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-colors">Learn More About Plans</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-20 bg-slate-100">
+            <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2">
+                    <img src="https://i.postimg.cc/GBxvSNFY/IMG-4998.png" alt="PLACED Team" class="rounded-lg shadow-xl w-full h-auto object-cover">
+                </div>
+                <div class="md:w-1/2">
+                    <h2 class="text-3xl md:text-4xl font-bold font-poppins mb-4">Grounded in Honesty, Focused on Growth.</h2>
+                    <p class="mb-4 text-slate-600">PLACED your home - our hands was founded on a simple principle: deliver exceptional work with integrity. My journey is one of accountability and a relentless drive to build a better future—for my family and for every property owner we serve. We're not just building structures; we're building trust.</p>
+                    <p class="mb-6 text-slate-600">By integrating technology like our LunAI assistant with old-fashioned hard work, we're making property improvement more transparent, efficient, and reliable for our community in Quispamsis and beyond.</p>
+                    <a href="#contact" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-md transition-colors">Meet the Team</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="handbook-main" class="py-20 bg-white">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold font-poppins mb-4">PLACED Homeowners Handbook: Your Guide to a Better Property.</h2>
+                <p class="max-w-3xl mx-auto mb-12 text-slate-600">Access comprehensive guides and pro tips from PLACED your home - our hands to maintain, protect, and enhance your property.</p>
+                
+                <div class="grid md:grid-cols-2 gap-12 text-left">
+                    <div id="article-roof-health" class="bg-slate-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-bold text-sky-700 mb-4">Evaluating Your Roof's Condition (Winter Considerations)</h3>
+                        <img src="https://i.postimg.cc/rdjt94TN/IMG-7070.png" alt="Roof Health Inspection" class="w-full rounded-lg mb-4 h-56 object-cover">
+                        <p class="text-slate-700 mb-4">Your roof protects your property from harsh Canadian weather, including heavy snow, ice, and fluctuating temperatures. Ignoring roof issues can lead to costly damage inside, especially during freeze-thaw cycles. This guide empowers you to recognize potential issues before they become costly problems.</p>
+                        <h4 class="font-bold text-lg mb-2">Signs It’s Time for a Replacement:</h4>
+                        <ul class="list-disc list-inside text-slate-600 mb-4">
+                            <li>**Age:** Most roofs last 20–30 years, depending on the material and climate.</li>
+                            <li>**Damage:** Cracked, curling, or missing shingles, ice dam damage, water stains inside your property, or sagging areas are all red flags. Look for evidence of past ice damming, and damage associated with it.</li>
+                            <li>**High Energy Bills:** Poor insulation or ventilation can drive up heating costs significantly in winter.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mb-2">What to Do:</h4>
+                        <ul class="list-disc list-inside text-slate-600 mb-4">
+                            <li>Inspect from the ground, especially after snowfall.</li>
+                            <li>Look for leaks indoors, particularly after thaws.</li>
+                            <li>Hire a professional for an evaluation, especially one with experience in Canadian winters.</li>
+                        </ul>
+                        <p class="text-slate-700 mb-4">A proactive approach with annual visual inspections from the ground (or professional inspections for closer detail) can extend your roof's lifespan significantly. After any major storm, a quick check is always recommended to spot immediate damage. Remember, what starts as a small issue can quickly escalate. Don't let minor concerns turn into major expenses. If you're unsure, our experts at PLACED are always here for a professional assessment.</p>
+                    </div>
+
+                    <div id="article-roof-warranty" class="bg-slate-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-bold text-sky-700 mb-4">Understanding Roofing Warranties: Your Peace of Mind Explained</h3>
+                        <img src="https://i.postimg.cc/ygN3pNY4/IMG-7071.png" alt="Roofing Warranty" class="w-full rounded-lg mb-4 h-56 object-cover">
+                        <p class="text-slate-700 mb-4">A roofing warranty is your safeguard against unexpected expenses and issues that may arise after your roof installation. Understanding the specifics of these warranties is crucial to ensure you’re adequately protected. </p>
+                        <h4 class="font-bold text-lg mb-2">Types of Roofing Warranties:</h4>
+                        <ul class="list-disc list-inside text-slate-600 mb-4">
+                            <li>**Manufacturer’s Limited Warranty:** This warranty covers defects in the roofing materials themselves. For instance, IKO provides limited warranties on their asphalt shingles, protecting property owners against manufacturing defects that could affect the shingles’ performance.</li>
+                            <li>**Workmanship Warranty:** Offered by the roofing contractor, this warranty covers installation errors. It’s essential to understand the terms of this warranty, as improper installation can void the manufacturer’s warranty.</li>
+                            <li>**Extended or Enhanced Warranties:** Some manufacturers, including IKO, offer extended warranties through certified contractors. These warranties may provide longer coverage periods and additional protections.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mb-2">Key Components to Understand:</h4>
+                        <ul class="list-disc list-inside text-slate-600 mb-4">
+                            <li>**Coverage Period:** Warranties have specific durations, with some IKO limited warranties for asphalt shingles covering up to 25 years or more.</li>
+                            <li>**Prorated vs. Non-Prorated Coverage:** Non-Prorated (Full Coverage) during an initial period (e.g., IKO’s “Iron Clad Protection Period”), then prorated where coverage diminishes over time.</li>
+                            <li>**Transferability:** Some warranties can be transferred to a new property owner, potentially increasing your property’s resale value.</li>
+                            <li>**Exclusions & Limitations:** Warranties typically exclude conditions like improper installation, acts of nature (hurricanes, earthquakes), or poor maintenance.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mb-2">Maximizing Your Warranty Protection:</h4>
+                        <ul class="list-disc list-inside text-slate-600 mb-4">
+                            <li>**Hire Certified Contractors:** Ensures proper installation and access to extended warranties.</li>
+                            <li>**Maintain Your Roof:** Regular inspections and maintenance are vital.</li>
+                            <li>**Understand Your Warranty Terms:** Read documents thoroughly.</li>
+                            <li>**Keep Detailed Records:** Maintain records of purchase, installation, maintenance, and repairs.</li>
+                        </ul>
+                        <p class="text-slate-700">Understanding roofing warranties is essential to protect your property investment. By familiarizing yourself with the types of warranties, their coverage, and the responsibilities they entail, you can make informed decisions and ensure peace of mind for years to come.</p>
+                    </div>
+
+                    <div id="article-planning-budgeting" class="bg-slate-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-bold text-sky-700 mb-4">Smart Planning & Budgeting for Canadian Winters</h3>
+                        <img src="https://i.postimg.cc/MnyBv4r4/IMG-7072.jpg" alt="Project Planning" class="w-full rounded-lg mb-4 h-56 object-cover">
+                        <p class="text-slate-700 mb-4">Replacing a roof is a significant investment, so careful planning is essential, considering the potential for increased costs due to winter conditions. PLACED's no-BS guide helps you navigate the costs and decisions.</p>
+                        <h4 class="font-bold text-lg mb-2">Key Budgeting Factors & Costs:</h4>
+                        <ul class="list-disc list-inside text-slate-600 mb-4">
+                            <li>**Estimate Costs:** Research material costs. Asphalt shingles typically cost $5,000–$15,000 for an average property. Consider materials rated for cold climates.</li>
+                            <li>**Contingencies:** Add 15–20% for contingencies, accounting for potential weather delays and increased labor costs in winter.</li>
+                            <li>**Permitting:** Check with your local building department if a permit is required to ensure compliance with local codes.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mb-2">Planning Your Project & Choosing a Contractor:</h4>
+                        <ul class="list-disc list-inside text-slate-600 mb-4">
+                            <li>**Gather Multiple Quotes:** Always get at least three quotes. Be wary of one that’s 20% lower than the others—it’s often a sign of shortcuts.</li>
+                            <li>**Choosing the Right Contractor:** Find one with experience in Canadian winters. Check reviews and ask for recommendations.</li>
+                            <li>**Ask Key Questions:** Inquire about licensing, insurance, warranties (especially for winter issues), and experience with ice dam prevention. Don't hesitate to speak to past clients or visit job sites.</li>
+                            <li>**"Patience is a Filter":** Drag the quoting process out; shortcut contractors won’t invest extra time.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mb-2">DIY Cost Calculation:</h4>
+                        <ul class="list-disc list-inside text-slate-600 mb-4">
+                            <li>**Measure Your Roof:** Length x width + overhang (typically 2 feet per side).</li>
+                            <li>**Material Cost Estimate:** Call a local hardware store, specifying materials rated for Canadian winters.</li>
+                        </ul>
+                        <p class="text-slate-700">At PLACED, we provide transparent, itemized quotes so you know exactly what you're paying for. No hidden fees, just honest pricing and expert guidance.</p>
+                    </div>
+                    
+                    <div class="bg-slate-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-bold text-sky-700 mb-4">Comprehensive Property Maintenance Log: Your Complete Care Tracker</h3>
+                        <img src="https://i.postimg.cc/c6bwjfnD/IMG-7069.jpg" alt="Home Maintenance Log" class="w-full rounded-lg mb-4 h-56 object-cover">
+                        <p class="text-slate-700 mb-4">A Property Maintenance Log is an invaluable tool for keeping your property in top condition. It allows you to track essential upkeep, schedule inspections, and document repairs or replacements, ensuring no aspect goes unnoticed.</p>
+                        <h4 class="font-bold text-lg mb-2">Key Sections in Your Maintenance Log:</h4>
+                        <ul class="list-disc list-inside text-slate-600 mb-4">
+                            <li>**General Information:** Property details (address, square footage, year built) and contractor contacts.</li>
+                            <li>**Room-by-Room Maintenance:** Track inspections, repairs, and upgrades for living areas, kitchen, bathrooms, bedrooms, attic, and basement.</li>
+                            <li>**Exterior Maintenance:** Log roof inspection dates, gutter cleaning schedules, window/door seal updates, siding repairs, and deck maintenance.</li>
+                            <li>**Systems Maintenance:** Track HVAC filter changes, water heater flushing, plumbing leak detection, and electrical panel inspections.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mb-2">How to Use Your Maintenance Log:</h4>
+                        <ul class="list-disc list-inside text-slate-600 mb-4">
+                            <li>**Track Dates:** Record the last maintenance or inspection date for each item.</li>
+                            <li>**Set Reminders:** Use a calendar or app for recurring tasks (e.g., spring and fall roof checks).</li>
+                            <li>**Document Repairs:** Note date, cost, and contractor details for every repair.</li>
+                            <li>**Keep Receipts:** Attach digital or physical copies of invoices and warranties.</li>
+                        </ul>
+                        <p class="text-slate-700 mb-4">**Benefits:** Stay organized, save money by preventing costly emergency repairs, boost resale value, and gain peace of mind.</p>
+                        <a href="#" class="text-sm text-orange-600 font-semibold mt-4 inline-block">Learn More &rarr;</a>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-bold text-sky-700 mb-4">Having Your Driveway Paved</h3>
+                        <img src="https://i.postimg.cc/3WV097sV/IMG-7089.jpg" alt="Driveway Paving" class="w-full rounded-lg mb-4 h-56 object-cover">
+                        <p class="text-slate-700 mb-4">A freshly paved driveway enhances curb appeal, improves property value, and ensures a smooth, durable surface for years to come. This guide covers what to expect and tips for a smooth process.</p>
+                        <h4 class="font-bold text-lg mb-2">What to Expect:</h4>
+                        <ul class="list-disc list-inside text-slate-600 mb-4">
+                            <li>**Preparation:** Existing asphalt or gravel removal; base layer leveled and compacted for drainage.</li>
+                            <li>**Installation:** Asphalt or concrete is poured and smoothed; left to cure (24–48 hours for asphalt, 7+ days for concrete).</li>
+                            <li>**Finishing Touches:** Edges cleaned; sealcoating may be applied for protection.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mb-2">Tips for a Smooth Process:</h4>
+                        <ul class="list-disc list-inside text-slate-600 mb-4">
+                            <li>**Get Multiple Quotes:** Compare pricing, materials, and warranty options.</li>
+                            <li>**Ask About Drainage:** Ensure proper grading to prevent water pooling.</li>
+                            <li>**Avoid Heavy Use:** Stay off for the recommended curing period.</li>
+                            <li>**Pro Tip:** Schedule paving in spring or summer for best results.</li>
+                        </ul>
+                        <a href="#" class="text-sm text-orange-600 font-semibold mt-4 inline-block">Learn More &rarr;</a>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-bold text-sky-700 mb-4">Having Christmas Lights Installed</h3>
+                        <img src="https://i.postimg.cc/PNx12SPp/IMG-7068.png" alt="Christmas Lights" class="w-full rounded-lg mb-4 h-56 object-cover">
+                        <p class="text-slate-700 mb-4">A beautifully lit property brings joy to the holiday season—but climbing ladders and untangling lights can be time-consuming and risky. Professional installation ensures safety, quality, and stunning results.</p>
+                        <h4 class="font-bold text-lg mb-2">What to Expect:</h4>
+                        <ul class="list-disc list-inside text-slate-600 mb-4">
+                            <li>**Design Consultation:** Choose your lighting design, colors, and placement.</li>
+                            <li>**Installation:** Lights safely installed on your roofline, windows, trees, or walkways; all wiring secured and weatherproofed.</li>
+                            <li>**Maintenance & Removal:** Many services include fixing lights; professionals take down lights after holidays.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mb-2">Tips for a Sparkling Experience:</h4>
+                        <ul class="list-disc list-inside text-slate-600 mb-4">
+                            <li>**Book Early:** Schedule in October or early November.</li>
+                            <li>**Discuss Power Needs:** Ensure your property can handle load; ask about energy-efficient LEDs.</li>
+                            <li>**Opt for Timer Controls:** Automate lights to save energy.</li>
+                            <li>**Pro Tip:** Reuse lights by asking installer to label and organize during takedown.</li>
+                        </ul>
+                        <a href="#" class="text-sm text-orange-600 font-semibold mt-4 inline-block">Learn More &rarr;</a>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-lg shadow-md">
+                        <h3 class="text-2xl font-bold text-sky-700 mb-4">Having Your Gutters Cleaned</h3>
+                        <img src="https://i.postimg.cc/SXgJ9pLZ/IMG-7092.jpg" alt="Gutter Cleaning" class="w-full rounded-lg mb-4 h-56 object-cover">
+                        <p class="text-slate-700 mb-4">Clogged gutters lead to water damage, roof leaks, and even foundation issues. Regular cleaning prevents costly repairs and keeps your property protected.</p>
+                        <h4 class="font-bold text-lg mb-2">What to Expect:</h4>
+                        <ul class="list-disc list-inside text-slate-600 mb-4">
+                            <li>**Initial Inspection:** Team assesses gutters for damage or blockages.</li>
+                            <li>**Cleaning Process:** Debris removed; gutters and downspouts flushed for proper flow.</li>
+                            <li>**Minor Repairs:** Some services include sealing leaks or reattaching loose sections.</li>
+                        </ul>
+                        <h4 class="font-bold text-lg mb-2">Tips for Hassle-Free Maintenance:</h4>
+                        <ul class="list-disc list-inside text-slate-600 mb-4">
+                            <li>**Schedule Seasonally:** Clean in spring and fall.</li>
+                            <li>**Ask About Guards:** Consider installing gutter guards to minimize future blockages.</li>
+                            <li>**Combine Services:** Pair gutter cleaning with roof inspections for a complete package.</li>
+                            <li>**Pro Tip:** Don’t neglect your downspouts—clogs here can cause water backup near your foundation.</li>
+                        </ul>
+                        <a href="#" class="text-sm text-orange-600 font-semibold mt-4 inline-block">Learn More &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="lunai-vision" class="py-20 bg-slate-100 antialiased">
+            <div class="container mx-auto p-4 md:p-8">
+
+                <header class="text-center mb-12 md:mb-16">
+                    <h2 class="text-3xl md:text-4xl font-black font-poppins text-[#004AAD] mb-2">The LunAI Revolution: Make This Place Your Home.</h2>
+                    <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">A blueprint for how PLACED is automating excellence and transforming the property journey with its first-of-its-kind AI assistant.</p>
+                </header>
+
+                <section id="kpis-lunai" class="mb-16">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                        <div class="kpi-card p-6 rounded-xl shadow-lg">
+                            <p class="text-6xl font-bold">35+</p>
+                            <p class="text-lg font-semibold mt-2">Years of Experience</p>
+                        </div>
+                        <div class="kpi-card p-6 rounded-xl shadow-lg">
+                            <p class="text-6xl font-bold">1,000+</p>
+                            <p class="text-lg font-semibold mt-2">Completed Projects</p>
+                        </div>
+                        <div class="kpi-card p-6 rounded-xl shadow-lg">
+                            <p class="text-6xl font-bold">1M+</p>
+                            <p class="text-lg font-semibold mt-2">Materials Installed</p>
+                        </div>
+                    </div>
+                    <p class="text-center mt-8 text-gray-700">These numbers represent a legacy of integrity, reliability, and precision—core values now being amplified by technology.</p>
+                </section>
+
+                <section id="evolution-lunai" class="text-center mb-16 bg-white p-8 rounded-xl shadow-md">
+                    <h3 class="text-3xl font-bold text-[#004AAD] mb-6">The Evolution of LunAI</h3>
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
+                        <div class="border-2 border-dashed border-gray-300 p-6 rounded-lg text-center">
+                            <h4 class="text-xl font-bold text-gray-700">CURRENT STATE</h4>
+                            <p class="mt-2 text-gray-600">Conceptual Assistant</p>
+                        </div>
+                        <div class="flowchart-arrow font-bold transform md:rotate-0 rotate-90">&rarr;</div>
+                        <div class="bg-[#008DDA] text-white p-6 rounded-lg text-center shadow-lg">
+                            <h4 class="text-xl font-bold">FUTURE STATE</h4>
+                            <p class="mt-2">Automated Powerhouse</p>
+                        </div>
+                    </div>
+                    <p class="mt-6 text-gray-700 max-w-2xl mx-auto">The goal is to transform LunAI from a helpful chatbot into a comprehensive platform that automates key business processes and elevates the entire customer experience for both roofing and shed solutions.</p>
+                </section>
+
+                <section id="pillars-lunai" class="mb-16">
+                    <h3 class="text-3xl font-bold text-[#004AAD] mb-8 text-center">Five Pillars of Transformation</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="bg-white p-6 rounded-xl shadow-md flex flex-col">
+                            <h4 class="text-2xl font-bold text-[#004AAD] mb-4">1. Real-Time Project Estimation</h4>
+                            <p class="text-gray-600 mb-4 flex-grow">Moves beyond "conceptual quotes" to generate precise, dynamic estimates for roofing and shed projects using real-time data, embodying PLACED's "fact-based" approach.</p>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <h5 class="font-bold mb-2">For PLACED:</h5>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Instant Lead Qualification</li>
+                                        <li>Consistent Pricing</li>
+                                        <li>Market Trend Analysis</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h5 class="font-bold mb-2">For Property Owners:</h5>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Immediate Cost Transparency</li>
+                                        <li>Personalized Options</li>
+                                        <li>Faster Decisions</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-xl shadow-md flex flex-col">
+                            <h4 class="text-2xl font-bold text-[#004AAD] mb-4">2. Proactive Property Maintenance</h4>
+                            <p class="text-gray-600 mb-4 flex-grow">Establishes a long-term partnership by providing personalized maintenance schedules, reminders, and digital warranty management for all property structures, enhancing "reliability."</p>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <h5 class="font-bold mb-2">For PLACED:</h5>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Enhanced Customer Loyalty</li>
+                                        <li>Recurring Revenue Streams</li>
+                                        <li>Reduced Warranty Claims</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h5 class="font-bold mb-2">For Property Owners:</h5>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Extended Property Lifespan</li>
+                                        <li>Peace of Mind</li>
+                                        <li>Easy Warranty Access</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-xl shadow-md flex flex-col">
+                            <h4 class="text-2xl font-bold text-[#004AAD] mb-4">3. AI-Driven Project Coordination</h4>
+                            <p class="text-gray-600 mb-4 flex-grow">Acts as a central command center for project logistics, managing schedules and communications for both roofing and shed installations to ensure "reliable & timely execution."</p>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <h5 class="font-bold mb-2">For PLACED:</h5>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Optimized Crew Scheduling</li>
+                                        <li>Improved Quality Control</li>
+                                        <li>Centralized Communication</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h5 class="font-bold mb-2">For Property Owners:</h5>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Real-Time Status Updates</li>
+                                        <li>Direct Crew Communication</li>
+                                        <li>Simplified Preparation</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-xl shadow-md flex flex-col">
+                            <h4 class="text-2xl font-bold text-[#004AAD] mb-4">4. Advanced Problem Diagnosis</h4>
+                            <p class="text-gray-600 mb-4 flex-grow">Expands diagnostics with visual analysis of user-uploaded photos, providing more precise problem identification and self-service troubleshooting for roofing and shed-related issues.</p>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <h5 class="font-bold mb-2">For PLACED:</h5>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Reduced Inbound Calls</li>
+                                        <li>Higher Quality Leads</li>
+                                        <li>Efficient Resource Use</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h5 class="font-bold mb-2">For Property Owners:</h5>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Instant Answers</li>
+                                        <li>Potential DIY Solutions</li>
+                                        <li>Faster Problem Understanding</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white p-6 rounded-xl shadow-md flex flex-col lg:col-span-2">
+                            <h4 class="text-2xl font-bold text-[#004AAD] mb-4">5. Automated Customer Feedback</h4>
+                            <p class="text-gray-600 mb-4 flex-grow">Systematizes feedback collection to proactively manage online reputation and gather actionable insights, reinforcing the "Customer Satisfaction Guaranteed" pledge.</p>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <h5 class="font-bold mb-2">For PLACED:</h5>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Real-Time Sentiment Analysis</li>
+                                        <li>Automated Review Requests</li>
+                                        <li>Stronger Online Presence</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h5 class="font-bold mb-2">For Property Owners:</h5>
+                                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                                        <li>Ensures Their Voice is Heard</li>
+                                        <li>Contributes to Better Service</li>
+                                        <li>Builds Trust and Partnership</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="deep-dive-lunai" class="mb-16 bg-white p-8 rounded-xl shadow-md">
+                    <h3 class="text-3xl font-bold text-[#004AAD] mb-8 text-center">Anatomy of an Automated Quote</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h4 class="font-bold text-xl mb-4">Project Cost Composition</h4>
+                            <p class="text-gray-700 mb-6">By integrating with material supplier and mapping APIs, LunAI can generate precise, itemized quotes instantly for both roofing and shed projects. This donut chart illustrates a typical cost breakdown for an 18-square roofing project, showing the property owner exactly where their money goes—a testament to transparency. Similar detailed breakdowns will be provided for all shed customization projects.</p>
+                            <div class="flex items-center text-sm text-gray-600 mb-2">
+                                <span class="w-4 h-4 rounded-full bg-[#008DDA] mr-2"></span>
+                                <span>Materials: $3,990.50 (71.9%)</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <span class="w-4 h-4 rounded-full bg-[#41C9E2] mr-2"></span>
+                                <span>Labor: $1,562.50 (28.1%)</span>
+                            </div>
+                        </div>
+                        <div class="lunai-chart-container">
+                            <canvas id="cost-composition-chart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="timeline-lunai" class="mb-16">
+                    <h3 class="text-3xl font-bold text-[#004AAD] mb-12 text-center">Phased Implementation Roadmap</h3>
+                    <div class="relative max-w-2xl mx-auto pl-8">
+                        <div class="absolute left-0 top-0 h-full w-0.5 bg-[#ACE2E1]"></div>
+
+                        <div class="relative mb-12 timeline-item">
+                            <h4 class="text-xl font-bold text-[#004AAD]">Phase 1: MVP (3-6 Months)</h4>
+                            <p class="font-semibold text-gray-600">Focus: Core Automation & Immediate Value</p>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li>Real-Time Project Estimation (v1 - Roofing & Sheds)</li>
+                                <li>Proactive Property Maintenance & Warranty Tracking</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="relative mb-12 timeline-item">
+                            <h4 class="text-xl font-bold text-[#004AAD]">Phase 2: Enhancement (6-12 Months)</h4>
+                            <p class="font-semibold text-gray-600">Focus: Deeper Integration & Communication</p>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li>AI-Driven Project Coordination & Chat</li>
+                                <li>Advanced Problem Diagnosis (v1 - Roofing & Sheds)</li>
+                                <li>Automated Customer Feedback System</li>
+                            </ul>
+                        </div>
+
+                        <div class="relative timeline-item">
+                            <h4 class="text-xl font-bold text-[#004AAD]">Phase 3: Advanced (12-24+ Months)</h4>
+                            <p class="font-semibold text-gray-600">Focus: Predictive Intelligence & Mobile Expansion</p>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li>Full Predictive Failure Analysis</li>
+                                <li>Sophisticated Scheduling Optimization</li>
+                                <li>Dedicated iOS & Android App Integration</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="gemini-features" class="mb-16 bg-white p-8 rounded-xl shadow-md">
+                    <h3 class="text-3xl font-bold text-[#004AAD] mb-8 text-center">Interactive LunAI Demos</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="flex flex-col">
+                            <h4 class="text-2xl font-bold text-[#004AAD] mb-4">Ask LunAI Anything</h4>
+                            <p class="text-gray-600 mb-4">Get instant answers to your roofing and shed questions directly from LunAI.</p>
+                            <textarea id="questionInput" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#008DDA] mb-4" rows="3" placeholder="e.g., What are the signs of a leaky roof? Or what types of sheds do you build?"></textarea>
+                            <button id="askLunAIButton" class="button-primary mb-4">Ask LunAI</button>
+                            <div id="lunaiResponse" class="bg-gray-100 p-4 rounded-md text-gray-700 min-h-[80px] overflow-auto"></div>
+                        </div>
+
+                        <div class="flex flex-col">
+                            <h4 class="text-2xl font-bold text-[#004AAD] mb-4">✨ Get a Pro Property Tip ✨</h4>
+                            <p class="text-gray-600 mb-4">Click below for a quick, expert tip on maintaining your roof or shed.</p>
+                            <button id="getTipButton" class="button-primary mb-4">Get a Tip</button>
+                            <div id="lunaiTip" class="bg-gray-100 p-4 rounded-md text-gray-700 min-h-[80px] overflow-auto"></div>
+                        </div>
+
+                        <div class="flex flex-col">
+                            <h4 class="text-2xl font-bold text-[#004AAD] mb-4">✨ Shed Customization Idea Generator ✨</h4>
+                            <p class="text-gray-600 mb-4">Describe your ideal shed (purpose, style, size, budget) and LunAI will generate custom ideas.</p>
+                            <textarea id="shedIdeaInput" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#008DDA] mb-4" rows="3" placeholder="e.g., I need a small shed for gardening tools, rustic style, under $1000."></textarea>
+                            <button id="generateShedIdeaButton" class="button-primary mb-4">Generate Ideas</button>
+                            <div id="shedIdeaResponse" class="bg-gray-100 p-4 rounded-md text-gray-700 min-h-[80px] overflow-auto"></div>
+                        </div>
+
+                        <div class="flex flex-col">
+                            <h4 class="text-2xl font-bold text-[#004AAD] mb-4">✨ Property Planning Assistant ✨</h4>
+                            <p class="text-gray-600 mb-4">Tell LunAI about your next property project (roofing, shed, etc.) and get a step-by-step plan.</p>
+                            <textarea id="projectPlanInput" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#008DDA] mb-4" rows="3" placeholder="e.g., I want to build a small backyard office shed."></textarea>
+                            <button id="generateProjectPlanButton" class="button-primary mb-4">Generate Plan</button>
+                            <div id="projectPlanResponse" class="bg-gray-100 p-4 rounded-md text-gray-700 min-h-[80px] overflow-auto"></div>
+                        </div>
+
+                        <div class="flex flex-col">
+                            <h4 class="text-2xl font-bold text-[#004AAD] mb-4">✨ Material Recommendation Assistant ✨</h4>
+                            <p class="text-gray-600 mb-4">Describe your project (roof or shed), preferences (style, durability), and budget for tailored material suggestions.</p>
+                            <textarea id="materialRecInput" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#008DDA] mb-4" rows="3" placeholder="e.g., I need roofing for a modern property in a snowy climate, moderate budget."></textarea>
+                            <button id="generateMaterialRecButton" class="button-primary mb-4">Get Recommendations</button>
+                            <div id="materialRecResponse" class="bg-gray-100 p-4 rounded-md text-gray-700 min-h-[80px] overflow-auto"></div>
+                        </div>
+
+                        <div class="flex flex-col">
+                            <h4 class="text-2xl font-bold text-[#004AAD] mb-4">✨ Automated Inspection Checklist Generator ✨</h4>
+                            <p class="text-gray-600 mb-4">Get a customized checklist for inspecting your roof, shed, or even a mini property trailer.</p>
+                            <textarea id="inspectionChecklistInput" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#008DDA] mb-4" rows="3" placeholder="e.g., I need a checklist for inspecting my backyard shed."></textarea>
+                            <button id="generateInspectionChecklistButton" class="button-primary mb-4">Generate Checklist</button>
+                            <div id="inspectionChecklistResponse" class="bg-gray-100 p-4 rounded-md text-gray-700 min-h-[80px] overflow-auto"></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </section>
+
+        <section id="contact" class="py-20 bg-slate-800 text-white">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold font-poppins mb-4">Ready to Start Your Next Project?</h2>
+                <p class="max-w-2xl mx-auto mb-8">Whether it's a new roof, a custom shed, or just a question, we're here to help. Reach out for a free, no-pressure quote. PLACED: Let's build your dream home. </p>
+                <form class="max-w-xl mx-auto bg-slate-700 p-8 rounded-lg shadow-lg">
+                    <div class="grid md:grid-cols-2 gap-4 mb-4">
+                        <input type="text" placeholder="Your Name" class="w-full p-3 rounded-md bg-slate-600 border border-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        <input type="email" placeholder="Your Email" class="w-full p-3 rounded-md bg-slate-600 border border-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    </div>
+                    <textarea placeholder="Tell us about your project..." rows="5" class="w-full p-3 rounded-md bg-slate-600 border border-slate-500 mb-4 focus:outline-none focus:ring-2 focus:ring-orange-500"></textarea>
+                    <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full text-lg transition-colors">Send Inquiry</button>
+                </form>
+            </div>
+        </section>
+
+        <footer class="bg-slate-900 text-slate-400 text-center py-8">
+            <div class="container mx-auto">
+                <p>&copy; <span id="current-year"></span> PLACED your home - our hands. All Rights Reserved.</p>
+                <p class="text-sm">Serving Quispamsis, Saint John, and Southern New Brunswick. PLACED: From our home to yours. </p>
+            </div>
+        </footer>
+    </div> <!-- End of main-content-sections -->
+
+    <!-- Sheds Page Section (Initially hidden) -->
+    <div id="sheds-page" class="hidden min-h-screen py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold font-poppins mb-4">PLACED Sheds & Tiny Homes: Nothing Tiny About This Announcement!</h2>
+                <p class="max-w-3xl mx-auto mt-4 text-slate-600">Explore our wide range of durable, customizable, and Canadian-made sheds and tiny homes. Find the perfect solution for storage, workspace, or a cozy backyard retreat. PLACED: Let's build your dream home. </p>
+            </div>
+            <div class="flex justify-center flex-wrap gap-2 mb-8">
+                <button class="shed-filter-btn active px-4 py-2 bg-slate-200 rounded-full text-sm font-semibold transition" data-filter="all">All Models</button>
+                <button class="shed-filter-btn px-4 py-2 bg-slate-200 rounded-full text-sm font-semibold transition" data-filter="lofted">Lofted Barn</button>
+                <button class="shed-filter-btn px-4 py-2 bg-slate-200 rounded-full text-sm font-semibold transition" data-filter="a-frame">A-Frame</button>
+                <button class="shed-filter-btn px-4 py-2 bg-slate-200 rounded-full text-sm font-semibold transition" data-filter="utility">Utility</button>
+                <button class="shed-filter-btn px-4 py-2 bg-slate-200 rounded-full text-sm font-semibold transition" data-filter="quaker">Quaker</button>
+            </div>
+            <div id="shed-grid-page" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                </div>
+            <div class="text-center mt-12">
+                 <button id="backToHomeBtnShedsPage" class="bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-colors">Back to Main Services</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Market Insights Modal -->
+    <div id="marketInsightsModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="closeMarketInsightsModal">&times;</button>
+            <div class="text-slate-700">
+                <div class="container mx-auto p-4 md:p-8">
+                    <header class="text-center mb-12 md:mb-16">
+                        <h2 class="text-3xl md:text-4xl font-black font-oswald text-[#023047]">Tiny Home Market Expansion Infographic</h2>
+                        <p class="text-lg md:text-xl text-[#219EBC] mt-4 max-w-3xl mx-auto">A strategic overview of the Canadian tiny home market and PLACED's position within New Brunswick.</p>
+                    </header>
+
+                    <main class="space-y-20">
+                        <section id="market-overview-tiny">
+                            <h3 class="text-3xl font-bold font-oswald text-center mb-10 text-[#023047]">The Big Picture: Canada's Tiny Home Boom</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                                <div class="stat-card">
+                                    <h4 class="font-bold text-xl mb-4 text-[#023047]">Why Go Tiny? The Driving Forces</h4>
+                                    <p class="mb-4 text-slate-600">The shift towards tiny living is driven by powerful financial and lifestyle motivations. Affordability is the primary factor, as smaller footprints lead to significantly lower purchase prices and running costs. This is followed by a strong desire for sustainability and a more minimalist, mobile lifestyle.</p>
+                                    <div class="market-chart-container h-64 md:h-80">
+                                        <canvas id="marketDriversChart"></canvas>
+                                    </div>
+                                </div>
+                                <div class="stat-card text-center flex flex-col justify-center items-center h-full">
+                                    <h4 class="font-bold text-xl mb-4 text-[#023047]">Average Cost of a Tiny Home</h4>
+                                    <p class="font-black font-oswald text-7xl text-[#FB8500] my-4">$60,000</p>
+                                    <p class="text-slate-600 max-w-sm">While prices vary widely based on size, materials, and customization, the average cost makes homeownership more attainable for many Canadians compared to the traditional housing market.</p>
+                                </div>
+                            </div>
+                        </section>
+                        
+                        <section id="cost-comparison-tiny">
+                            <h3 class="text-3xl font-bold font-oswald text-center mb-10 text-[#023047]">What's on Offer? A Look at Structure Costs</h3>
+                            <div class="stat-card md:col-span-2">
+                                <h4 class="font-bold text-xl mb-2 text-[#023047] text-center">Tiny Home & Structure Cost Comparison (CAD)</h4>
+                                <p class="text-center text-slate-600 mb-6 max-w-4xl mx-auto">From simple DIY projects to high-end custom builds, the cost of tiny homes varies significantly. This chart illustrates the typical price ranges for popular structure types, showing a clear hierarchy from basic wheeled units to more complex modular homes.</p>
+                                <div class="market-chart-container h-96 md:h-[500px]">
+                                    <canvas id="costComparisonChart"></canvas>
+                                    </div>
+                            </div>
+                        </section>
+                        
+                        <section id="competitors-tiny">
+                            <h3 class="text-3xl font-bold font-oswald text-center mb-10 text-[#023047]">The New Brunswick Battlefield</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                                <div class="stat-card md:col-span-2">
+                                    <h4 class="font-bold text-xl mb-4 text-[#023047]">Key Competitors & Their Offerings</h4>
+                                    <p class="mb-6 text-slate-600">The local market features a mix of players, from large networks like Old Hickory Buildings to specialized custom builders. A common thread among many successful competitors is offering flexible financing to lower the barrier to entry for customers. </p>
+                                    <div class="overflow-x-auto">
+                                        <table class="w-full text-left text-sm">
+                                            <thead class="bg-slate-100">
+                                                <tr>
+                                                    <th class="p-3 font-semibold text-[#023047]">Competitor</th>
+                                                    <th class="p-3 font-semibold text-[#023047]">Primary Offering</th>
+                                                    <th class="p-3 font-semibold text-[#023047]">Unique Selling Point (USP)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="border-b">
+                                                    <td class="p-3 font-medium">Old Hickory Buildings</td>
+                                                    <td class="p-3">Sheds, Cabins, Garages</td>
+                                                    <td class="p-3">Extensive Rent-to-Own program</td>
+                                                </tr>
+                                                <tr class="border-b">
+                                                    <td class="p-3 font-medium">Amish Sheds</td>
+                                                    <td class="p-3">High-quality wood sheds</td>
+                                                    <td class="p-3">Craftsmanship & RTO options</td>
+                                                </tr>
+                                                <tr class="border-b">
+                                                    <td class="p-3 font-medium">My Own Cottage</td>
+                                                    <td class="p-3">Prefab Homes</td>
+                                                    <td class="p-3">High energy efficiency (R-50+)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="p-3 font-medium">PLACED (Our Advantage)</td>
+                                                    <td class="p-3">Sheds, Tiny Homes, Maintenance</td>
+                                                    <td class="p-3 font-bold text-[#FB8500]">AI-Powered Service & Integrated Solutions</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <h4 class="font-bold text-xl mb-4 text-[#023047]">Financing is Key</h4>
+                                    <p class="mb-4 text-slate-600">A significant portion of competitors offer Rent-to-Own (RTO) financing, making it a critical market expectation.</p>
+                                    <div class="market-chart-container h-64 md:h-80">
+                                        <canvas id="rtoCompetitorChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        
+                        <section id="regulations-tiny">
+                            <h3 class="text-3xl font-bold font-oswald text-center mb-10 text-[#023047]">Navigating the Rules: NB Permits Simplified</h3>
+                            <div class="stat-card">
+                                <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">Understanding New Brunswick's permit process is crucial. The requirements differ significantly based on the structure's size and intended use. This flowchart clarifies the path to compliance for sheds and tiny homes.</p>
+                                <div class="w-full overflow-x-auto p-4">
+                                    <div class="flex flex-col md:flex-row justify-center items-start md:items-center space-y-4 md:space-y-0 md:space-x-4">
+                                        <div class="text-center p-4 bg-slate-100 rounded-lg shadow-inner w-full md:w-auto">
+                                            <p class="font-bold font-oswald text-[#023047]">START HERE</p>
+                                            <p class="text-sm">What are you building?</p>
+                                        </div>
+                                        <div class="text-3xl font-bold text-[#8ECAE6] self-center transform md:-translate-y-2 md:rotate-0 rotate-90">&rarr;</div>
+                                        <div class="flex flex-col space-y-4 w-full md:w-auto">
+                                            <div class="relative text-center p-4 border-2 border-[#219EBC] rounded-lg shadow-lg">
+                                                <p class="font-semibold text-[#023047]">Is it an Accessory Building (Shed, Garage)?</p>
+                                            </div>
+                                            <div class="flex justify-around items-center">
+                                                    <div class="flex flex-col items-center">
+                                                        <div class="text-xl font-bold text-green-500">&darr;</div>
+                                                        <div class="text-sm font-semibold">YES</div>
+                                                    </div>
+                                                    <div class="flex flex-col items-center">
+                                                        <div class="text-xl font-bold text-red-500">&darr;</div>
+                                                        <div class="text-sm font-semibold">NO</div>
+                                                    </div>
+                                            </div>
+                                            <div class="flex justify-around items-start space-x-2">
+                                                <div class="relative text-center p-3 border-2 border-dashed border-gray-400 rounded-lg w-1/2">
+                                                    <p class="font-semibold text-sm">Is it ≤ 55m² (592 ft²)?</p>
+                                                    <div class="mt-4 space-y-2 text-xs">
+                                                        <p class="bg-green-100 text-green-800 p-2 rounded"><b>YES:</b> Development Permit ONLY ($25)</p>
+                                                        <p class="bg-red-100 text-red-800 p-2 rounded"><b>NO:</b> Full Building & Development Permit Required</p>
+                                                    </div>
+                                                </div>
+                                                <div class="relative text-center p-3 border-2 border-dashed border-[#219EBC] rounded-lg w-1/2">
+                                                    <p class="font-semibold text-sm">Is it a Residential Tiny Home?</p>
+                                                    <div class="mt-4 space-y-2 text-xs">
+                                                        <p class="bg-blue-100 text-blue-800 p-2 rounded"><b>Rural & ≤ 625 ft² (Personal Use):</b> Development Permit ONLY</p>
+                                                        <p class="bg-red-100 text-red-800 p-2 rounded"><b>All Others:</b> Full Building Permit Required (NBC Compliant)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        
+                        <section id="technical-costs-tiny">
+                            <h3 class="text-3xl font-bold font-oswald text-center mb-10 text-[#023047]">Powering Up & Plumbing In: The Technical Costs</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="stat-card">
+                                    <h4 class="font-bold text-xl mb-2 text-[#023047] text-center">Estimated Electrical Costs (CAD)</h4>
+                                    <p class="text-center text-slate-600 mb-6">Costs for electrical work vary greatly between extending the grid and installing a self-sufficient solar system, which represents a significant upfront investment for off-grid freedom.</p>
+                                    <div class="market-chart-container">
+                                        <canvas id="electricalCostsChart"></canvas>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <h4 class="font-bold text-xl mb-2 text-[#023047] text-center">Estimated Plumbing Costs (CAD)</h4>
+                                    <p class="text-center text-slate-600 mb-6">Plumbing costs escalate with complexity. A basic hookup is manageable, but a full septic system connection is a major project expense that requires careful planning and budgeting.</p>
+                                    <div class="market-chart-container">
+                                        <canvas id="plumbingCostsChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        
+                        <section id="materials-tiny">
+                            <h3 class="text-3xl font-bold font-oswald text-center mb-10 text-[#023047]">The Bottom Line: Sourcing & Profitability</h3>
+                            <div class="stat-card">
+                                <h4 class="font-bold text-xl mb-2 text-[#023047] text-center">Southern NB Retail Lumber Prices (CAD)</h4>
+                                <p class="text-center text-slate-600 mb-6">Material costs are a primary driver of final pricing. This chart shows current retail prices for key building materials from local suppliers, providing a baseline for cost optimization through bulk purchasing and supplier relationships.</p>
+                                <div class="market-chart-container">
+                                    <canvas id="lumberPricesChart"></canvas>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section id="marketing-tiny">
+                            <h3 class="text-3xl font-bold font-oswald text-center mb-10 text-[#023047]">Getting the Word Out: Digital Strategy</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                <div class="stat-card text-center">
+                                    <div class="text-5xl mb-4">🎯</div>
+                                    <h4 class="font-bold text-xl mb-2 text-[#023047]">Hyper-Local SEO</h4>
+                                    <p class="text-slate-600">Dominate search results in Quispamsis and Southern NB by optimizing Google Business Profile and targeting local keywords like "sheds near me" and "roofing Saint John".</p>
+                                </div>
+                                <div class="stat-card text-center">
+                                    <div class="text-5xl mb-4">📚</div>
+                                    <h4 class="font-bold text-xl mb-2 text-[#023047]">Content is King</h4>
+                                    <p class="text-slate-600">Build trust and attract leads with a "Homeowners Handbook" full of valuable guides, DIY tips, and project breakdowns to establish PLACED as a local authority.</p>
+                                </div>
+                                <div class="stat-card text-center bg-[#023047] text-white">
+                                    <div class="text-5xl mb-4">🤖</div>
+                                    <h4 class="font-bold text-xl mb-2 text-white">The Harper AI Advantage</h4>
+                                    <p class="text-slate-300">Deploy our AI assistant for 24/7 sales, instant quotes, and lead qualification, providing a modern customer experience that legacy competitors can't match.</p>
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="lunai-widget-container" class="fixed bottom-5 right-5 z-50">
+        <button id="lunai-open-btn" class="bg-sky-600 text-white w-16 h-16 rounded-full flex items-center justify-center lunai-chat-bubble hover:bg-sky-700 transition-transform hover:scale-110">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+        </button>
+        <div id="lunai-chat-window" class="hidden absolute bottom-20 right-0 w-80 md:w-96 bg-white rounded-lg shadow-2xl flex flex-col">
+            <div class="bg-slate-800 text-white p-4 rounded-t-lg flex justify-between items-center">
+                <h3 class="font-bold">LunAI Assistant</h3>
+                <button id="lunai-close-btn">&times;</button>
+            </div>
+            <div id="lunai-chat-body" class="flex-grow p-4 overflow-y-auto">
+                </div>
+            <div class="p-4 border-t border-slate-200">
+                <div class="flex">
+                    <input type="text" id="lunai-input" placeholder="Ask about roofing or sheds..." class="w-full px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-sky-500">
+                    <button id="lunai-send-btn" class="bg-sky-600 text-white px-4 rounded-r-md hover:bg-sky-700">&uarr;</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="invoiceModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="closeInvoiceModal">&times;</button>
+            <div id="passwordPrompt" class="text-center p-8">
+                <h3 class="text-xl font-bold mb-4">Access Invoice Tool</h3>
+                <input type="password" id="invoicePasswordInput" class="w-full max-w-xs p-3 border rounded-md mb-4 text-center" placeholder="Enter password">
+                <button id="submitPasswordBtn" type="button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded-md transition-colors">Submit</button>
+                <p id="passwordError" class="text-red-500 text-sm mt-2 hidden">Incorrect password. Please try again.</p>
+            </div>
+
+            <div id="invoiceToolContent" class="hidden">
+                <div class="header-center mb-10">
+                    <img src="https://i.ibb.co/d01R68ZB/Screenshot-2024-06-14-at-20-03-34.png"
+                            alt="Paul's Roofing Logo"
+                            class="mx-auto mb-2 rounded-lg"
+                            style="max-width: 250px; height: auto;"
+                    >
+                    <p class="text-xl font-poppins font-bold text-slate-800">Paul's Roofing</p>
+                    <p class="text-sm text-gray-600">(506) 271 4162</p>
+                    <p class="text-sm text-gray-600 mt-1">
+                        <span contenteditable="true" class="editable-field">83 Stock Farm Rd</span>
+                    </p>
+                    <p class="text-sm text-gray-600">
+                        <span contenteditable="true" class="editable-field">Quispamsis, NB E2G 2A2</span>
+                    </p>
+                </div>
+
+                <div class="mb-8">
+                    <div class="mb-2">
+                        <span class="info-label text-gray-700">Invoice #:</span>
+                        <span contenteditable="true" class="editable-field" id="invoiceNum">1132</span>
+                    </div>
+                    <div class="mb-2">
+                        <span class="info-label text-gray-700">Date:</span>
+                        <span id="invoiceDate" class="editable-field" contenteditable="true"></span>
+                    </div>
+                    <div class="mb-2">
+                        <span class="info-label text-gray-700">Client Name:</span>
+                        <span contenteditable="true" class="editable-field" id="clientName">Roy Swazey</span>
+                    </div>
+                    <div class="mb-4">
+                        <span class="info-label text-gray-700">Job Address:</span>
+                        <span contenteditable="true" class="editable-field" id="jobAddress">27 Crescent Drive Saint John, New Brunswick</span>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Description of Work</h3>
+                    <p class="text-gray-800">
+                        <span contenteditable="true" class="editable-field block" id="serviceDescription">Roof installation</span>
+                    </p>
+                </div>
+
+                <div class="mb-8">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr>
+                                <th class="py-3 text-gray-700 font-semibold text-sm">DESCRIPTION</th>
+                                <th class="py-3 text-gray-700 font-semibold text-sm text-right">AMOUNT</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="py-4 text-gray-800">
+                                    <span contenteditable="true" class="editable-field" id="itemDescription">Roof installation</span>
+                                </td>
+                                <td class="py-4 text-gray-800 text-right">
+                                    $ <span contenteditable="true" class="editable-field" id="itemAmount">500.00</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="border-t-2 border-gray-300">
+                                <td class="py-4 text-right font-bold text-gray-800" colspan="1">TOTAL:</td>
+                                <td class="py-4 text-right font-bold text-gray-800">
+                                    $ <span id="totalAmount">500.00</span>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="mt-8">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-2">Notes</h3>
+                    <p class="text-gray-600 mb-6">
+                        <span contenteditable="true" class="editable-field block" id="invoiceNotes">No HST charged. Payment due upon completion of service.</span>
+                    </p>
+                </div>
+
+                <div class="mt-8 text-sm text-gray-600">
+                    <p>Thank you for choosing Paul's Roofing.</p>
+                </div>
+
+                <div class="mt-4 text-xs text-gray-500 text-center">
+                    <p>Powered by LunAI at PLACED. Your home, our hands.</p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-center gap-4 mt-10">
+                    <button id="printInvoiceBtnModal" type="button" class="print-button bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition duration-300 hover:scale-105">
+                        Print Invoice
+                    </button>
+                    <div class="email-button-container">
+                        <button id="emailInvoiceBtnModal" type="button" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transform transition duration-300 hover:scale-105">
+                            Email Invoice
+                        </button>
+                    </div>
+                </div>
+                <p class="text-center text-xs text-gray-500 mt-4">
+                    To save as PDF, use your browser's print dialog and select "Save as PDF".
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Menu Toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Set current year in footer
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // Shed Data (Consolidated from various documents, including shed offerings by placed)
+            const sheds = [
+                { id: 1, name: "8' x 12' A-Frame Shed", price: 4630, category: 'a-frame', img: 'https://i.postimg.cc/1H5ndFmpsF/IMG-4999.png' },
+                { id: 2, name: "10' x 20' Utility Shed", price: 9185, category: 'utility', img: 'https://i.postimg.cc/Mvg0c1Zc/IMG-6202.jpg' },
+                { id: 3, name: "12' x 28' Lofted Barn", price: 14950, category: 'lofted', img: 'https://i.postimg.cc/vg85RzhK/IMG-6206.jpg' },
+                { id: 4, name: "10' x 16' Quaker Shed", price: 7975, category: 'quaker', img: 'https://i.postimg.cc/d7wydBb0/IMG-7073-1.jpg' },
+                { id: 5, name: "10' x 16' A-Frame Shed", price: 6500, category: 'a-frame', img: 'https://i.postimg.cc/QFL5NsS1/IMG-7071-1.jpg' },
+                { id: 6, name: "12' x 20' Lofted Barn", price: 11500, category: 'lofted', img: 'https://i.postimg.cc/wybyCd7t/IMG-7087.jpg' },
+                { id: 7, name: "8' x 10' Utility Shed", price: 4200, category: 'utility', img: 'https://i.postimg.cc/87BF1v7g/IMG-7093.jpg' },
+                { id: 8, name: "12' x 24' A-Frame", price: 10250, category: 'a-frame', img: 'https://i.postimg.cc/grn6vrT3/IMG-7073.png' },
+                // Additional sheds from shed offerings by placed
+                { id: 9, name: "10' x 18' Lofted Barn Shed", price: 7985, category: 'lofted', img: 'https://i.postimg.cc/MMsVzQrp/IMG-7068-1.jpg' },
+                { id: 10, name: "8' x 14' Lofted Barn Shed", price: 5017, category: 'lofted', img: 'https://i.postimg.cc/RW9Fb0Xs/IMG-7097.jpg' },
+                { id: 11, name: "12' x 24' Utility Shed", price: 11249, category: 'utility', img: 'https://i.postimg.cc/23s3hGvf/IMG-7098.jpg' },
+                { id: 12, name: "10' x 14' Utility Shed", price: 5953, category: 'utility', img: 'https://i.postimg.cc/F70zZSgk/IMG-7099.jpg' },
+                { id: 13, name: "10' x 18' A-Frame Classic Shed", price: 6531, category: 'a-frame', img: 'https://i.postimg.cc/Yv39cwPp/IMG-7100.jpg' },
+                { id: 14, name: "10' x 12' Utility Shed", price: 6415, category: 'utility', img: 'https://i.postimg.cc/jn75Bwp9/IMG-7095.jpg' }
+            ];
+
+            // Shed Filtering Logic for Sheds Page
+            const shedsPageGrid = document.getElementById('shed-grid-page');
+            const shedsPageFilterButtons = document.querySelectorAll('#sheds-page .shed-filter-btn');
+
+            const displayShedsPage = (filter = 'all') => {
+                shedsPageGrid.innerHTML = '';
+                const filteredSheds = sheds.filter(shed => filter === 'all' || shed.category === filter);
+                
+                if (filteredSheds.length === 0) {
+                    shedsPageGrid.innerHTML = `<p class="text-slate-500 col-span-full text-center">No models match this category yet.</p>`;
+                    return;
+                }
+
+                filteredSheds.forEach(shed => {
+                    const shedEl = document.createElement('div');
+                    shedEl.className = 'shed-item bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105';
+                    shedEl.innerHTML = `
+                        <img src="${shed.img}" alt="${shed.name}" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h4 class="font-bold text-lg">${shed.name}</h4>
+                            <p class="text-slate-600">Starting at <span class="font-bold text-orange-600">$${shed.price.toLocaleString()}</span> + tax</p>
+                            <a href="#contact" class="text-sm text-sky-600 font-semibold mt-2 inline-block">Request Info &rarr;</a>
+                        </div>
+                    `;
+                    shedsPageGrid.appendChild(shedEl);
+                });
+            };
+
+            shedsPageFilterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    shedsPageFilterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    displayShedsPage(button.dataset.filter);
+                });
+            });
+
+            // Page Navigation Logic
+            const mainContentSections = document.getElementById('main-content-sections');
+            const shedsPage = document.getElementById('sheds-page');
+            const openShedsPageBtn = document.getElementById('openShedsPageBtn');
+            const openShedsPageBtnMobile = document.getElementById('openShedsPageBtnMobile');
+            const backToHomeBtnShedsPage = document.getElementById('backToHomeBtnShedsPage');
+            const mainShedsCard = document.getElementById('mainShedsCard'); // The sheds card on the main services section
+
+            const showMainContent = () => {
+                mainContentSections.classList.remove('hidden');
+                shedsPage.classList.add('hidden');
+                // Ensure scroll to top of main content when returning
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            };
+
+            const showShedsPage = () => {
+                mainContentSections.classList.add('hidden');
+                shedsPage.classList.remove('hidden');
+                displayShedsPage(); // Render sheds when page is shown
+                // Ensure scroll to top of sheds page
+                shedsPage.scrollIntoView({ behavior: 'smooth' });
+            };
+
+            openShedsPageBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                showShedsPage();
+            });
+            openShedsPageBtnMobile.addEventListener('click', (e) => {
+                e.preventDefault();
+                mobileMenu.classList.add('hidden'); // Hide mobile menu first
+                showShedsPage();
+            });
+            backToHomeBtnShedsPage.addEventListener('click', () => {
+                showMainContent();
+            });
+            mainShedsCard.addEventListener('click', showShedsPage);
+
+
+            // LunAI Chatbot Logic (Floating)
+            const lunaiOpenBtn = document.getElementById('lunai-open-btn');
+            const lunaiCloseBtn = document.getElementById('lunai-close-btn');
+            const lunaiChatWindow = document.getElementById('lunai-chat-window');
+            const lunaiChatBody = document.getElementById('lunai-chat-body');
+            const lunaiInputEl = document.getElementById('lunai-input');
+            const lunaiSendBtn = document.getElementById('lunai-send-btn');
+
+            lunaiOpenBtn.addEventListener('click', () => lunaiChatWindow.classList.remove('hidden'));
+            lunaiCloseBtn.addEventListener('click', () => lunaiChatWindow.classList.add('hidden'));
+            
+            const addLunaiMessage = (text, sender) => {
+                const messageEl = document.createElement('div');
+                messageEl.className = `p-2 rounded-lg mb-2 max-w-[80%] ${sender === 'user' ? 'bg-sky-500 text-white self-end ml-auto' : 'bg-slate-200 text-slate-800 self-start'}`;
+                messageEl.textContent = text;
+                lunaiChatBody.appendChild(messageEl);
+                lunaiChatBody.scrollTop = lunaiChatBody.scrollHeight;
+            };
+
+            const getLunAIResponse = async (userInput) => {
+                const lowerInput = userInput.toLowerCase();
+                let responseText = "";
+
+                if (lowerInput.includes('roofing') || lowerInput.includes('leak')) {
+                    responseText = "We offer comprehensive roofing services, including shingle and metal installations, as well as emergency leak repairs. What specific questions do you have?";
+                } else if (lowerInput.includes('shed') || lowerInput.includes('price')) {
+                    responseText = "Our sheds are fully customizable. The 8x12 A-Frame starts at $4,630+tax. For a detailed quote on a specific model, could you tell me the size and style you're interested in?";
+                } else if (lowerInput.includes('maintenance') || lowerInput.includes('care')) {
+                    responseText = "Our Home Maintenance division offers custom plans, gutter & exterior care, and seasonal inspections to keep your home in top condition. How can I help with your maintenance needs?";
+                } else if (lowerInput.includes('quote') || lowerInput.includes('invoice')) {
+                    responseText = "You can generate a quick quote or invoice using our online tool! Click 'Invoice Tool' in the navigation bar to access it.";
+                } else if (lowerInput.includes('hello') || lowerInput.includes('hi')) {
+                    responseText = "Hello! I'm LunAI. How can I help you with your roofing, shed, or home maintenance needs today?";
+                } else {
+                    try {
+                        const chatHistory = [{ role: "user", parts: [{ text: `Answer this question professionally, concisely, and as PLACED Roofing & Home Solutions's AI assistant (LunAI). Keep responses focused on roofing, sheds, and home maintenance: ${userInput}` }] }];
+                        const payload = { contents: chatHistory };
+                        const apiKey = ""; // API key is provided by the environment
+                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        const result = await response.json();
+
+                        if (result.candidates && result.candidates.length > 0 &&
+                            result.candidates[0].content && result.candidates[0].content.parts &&
+                            result.candidates[0].content.parts.length > 0) {
+                            responseText = result.candidates[0].content.parts[0].text;
+                        } else {
+                            responseText = 'Sorry, I am having trouble understanding that. Please try rephrasing.';
+                        }
+                    } catch (error) {
+                        console.error('Error calling Gemini API for LunAI response:', error);
+                        responseText = 'An error occurred while connecting to my AI brain. Please try again later.';
+                    }
+                }
+                return responseText;
+            };
+
+            const handleLunaiSend = async () => {
+                const userInput = lunaiInputEl.value.trim();
+                if (userInput) {
+                    addLunaiMessage(userInput, 'user');
+                    lunaiInputEl.value = '';
+                    const typingIndicator = document.createElement('div');
+                    typingIndicator.className = 'text-left text-gray-400 italic my-1';
+                    typingIndicator.innerHTML = 'LunAI is thinking<span class="typing-dot">.</span><span class="typing-dot">.</span><span class="typing-dot">.</span>';
+                    lunaiChatBody.appendChild(typingIndicator);
+                    lunaiChatBody.scrollTop = lunaiChatBody.scrollHeight;
+
+                    const botResponse = await getLunAIResponse(userInput);
+                    
+                    if(typingIndicator.parentNode) {
+                        typingIndicator.parentNode.removeChild(typingIndicator);
+                    }
+                    addLunaiMessage(botResponse, 'bot');
+                }
+            };
+            
+            lunaiSendBtn.addEventListener('click', handleLunaiSend);
+            lunaiInputEl.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleLunaiSend();
+                }
+            });
+
+            addLunaiMessage("Hello! I'm LunAI, your virtual assistant. Ask me about roofing, sheds, or home maintenance!", 'bot');
+
+
+            // LunAI Blueprint Interactive Demos
+            const wrapLabel = (label) => {
+                const maxLength = 16;
+                if (label.length <= maxLength) return label;
+                const words = label.split(' ');
+                let currentLine = '';
+                const lines = [];
+                words.forEach(word => {
+                    if ((currentLine + ' ' + word).trim().length > maxLength) {
+                        lines.push(currentLine.trim());
+                        currentLine = word;
+                    } else {
+                        currentLine = (currentLine + ' ' + word).trim();
+                    }
+                });
+                lines.push(currentLine.trim());
+                return lines;
+            };
+
+            const FONT_COLOR = '#023047';
+            const GRID_COLOR = 'rgba(2, 48, 71, 0.1)';
+            const BRILLIANT_BLUES_PALETTE = {
+                primary: '#023047',
+                secondary: '#219EBC',
+                accent: '#8ECAE6',
+                highlight: '#FFB703',
+                attention: '#FB8500'
+            };
+
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                return Array.isArray(label) ? label.join(' ') : label;
+            };
+            
+            const defaultChartOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: FONT_COLOR,
+                            font: { family: "'Roboto', sans-serif" }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(2, 48, 71, 0.9)',
+                        titleFont: { family: "'Poppins', sans-serif", weight: 'bold', size: 14 },
+                        bodyFont: { family: "'Roboto', sans-serif", size: 12 },
+                        callbacks: {
+                            title: tooltipTitleCallback
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: FONT_COLOR, font: { family: "'Roboto', sans-serif" } },
+                        grid: { color: GRID_COLOR }
+                    },
+                    y: {
+                        ticks: { color: FONT_COLOR, font: { family: "'Roboto', sans-serif" } },
+                        grid: { color: GRID_COLOR }
+                    }
+                }
+            };
+
+            new Chart(document.getElementById('cost-composition-chart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Materials', 'Labor'],
+                    datasets: [{
+                        label: 'Project Cost',
+                        data: [3990.50, 1562.50],
+                        backgroundColor: [
+                            '#008DDA', /* Main site blue */
+                            '#41C9E2' /* Main site light blue */
+                        ],
+                        borderColor: [
+                            '#F8F9FA'
+                        ],
+                        borderWidth: 4,
+                        hoverOffset: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    const item = tooltipItems[0];
+                                    let label = item.chart.data.labels[item.dataIndex];
+                                    if (Array.isArray(label)) {
+                                        return label.join(' ');
+                                    } else {
+                                        return label;
+                                    }
+                                },
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                        const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                        label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed) + ` (${percentage}%)`;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+
+            const askLunAIButton = document.getElementById('askLunAIButton');
+            const questionInput = document.getElementById('questionInput');
+            const lunaiResponseDiv = document.getElementById('lunaiResponse');
+
+            askLunAIButton.addEventListener('click', async () => {
+                const prompt = questionInput.value.trim();
+                if (!prompt) {
+                    lunaiResponseDiv.innerText = 'Please enter a question.';
+                    return;
+                }
+
+                lunaiResponseDiv.innerText = 'LunAI is thinking...';
+                askLunAIButton.disabled = true;
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: `Answer this roofing or shed-related question concisely and professionally for a homeowner from PLACED: ${prompt}` }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    const response = await fetch(apiUrl, {
+                               method: 'POST',
+                               headers: { 'Content-Type': 'application/json' },
+                               body: JSON.stringify(payload)
+                           });
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        lunaiResponseDiv.innerText = text;
+                    } else {
+                        lunaiResponseDiv.innerText = 'Sorry, I could not generate a response. Please try again.';
+                    }
+                } catch (error) {
+                    console.error('Error calling Gemini API:', error);
+                    lunaiResponseDiv.innerText = 'An error occurred while connecting to LunAI. Please try again later.';
+                } finally {
+                    askLunAIButton.disabled = false;
+                }
+            });
+
+            const getTipButton = document.getElementById('getTipButton');
+            const lunaiTipDiv = document.getElementById('lunaiTip');
+
+            getTipButton.addEventListener('click', async () => {
+                lunaiTipDiv.innerText = 'Generating a tip...';
+                getTipButton.disabled = true;
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: "Provide a concise, professional, and practical property maintenance tip (can be about roofs or sheds) for homeowners. Do not include introductory phrases like 'Here's a tip' or 'A good tip is'." }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    const response = await fetch(apiUrl, {
+                               method: 'POST',
+                               headers: { 'Content-Type': 'application/json' },
+                               body: JSON.stringify(payload)
+                           });
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        lunaiTipDiv.innerText = text;
+                    } else {
+                        lunaiTipDiv.innerText = 'Sorry, I could not generate a tip. Please try again.';
+                    }
+                } catch (error) {
+                    console.error('Error calling Gemini API:', error);
+                    lunaiTipDiv.innerText = 'An error occurred while connecting to LunAI. Please try again later.';
+                } finally {
+                    getTipButton.disabled = false;
+                }
+            });
+
+            const generateShedIdeaButton = document.getElementById('generateShedIdeaButton');
+            const shedIdeaInput = document.getElementById('shedIdeaInput');
+            const shedIdeaResponseDiv = document.getElementById('shedIdeaResponse');
+
+            generateShedIdeaButton.addEventListener('click', async () => {
+                const prompt = shedIdeaInput.value.trim();
+                if (!prompt) {
+                    shedIdeaResponseDiv.innerText = 'Please describe your shed idea.';
+                    return;
+                }
+
+                shedIdeaResponseDiv.innerText = 'Generating shed ideas...';
+                generateShedIdeaButton.disabled = true;
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: `Generate creative shed design and feature ideas based on this description from a homeowner. Be concise and engaging, suggest specific styles, materials, and potential uses: ${prompt}` }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    const response = await fetch(apiUrl, {
+                               method: 'POST',
+                               headers: { 'Content-Type': 'application/json' },
+                               body: JSON.stringify(payload)
+                           });
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        shedIdeaResponseDiv.innerText = text;
+                    } else {
+                        shedIdeaResponseDiv.innerText = 'Sorry, I could not generate shed ideas. Please try again.';
+                    }
+                } catch (error) {
+                    console.error('Error calling Gemini API:', error);
+                    shedIdeaResponseDiv.innerText = 'An error occurred while connecting to LunAI. Please try again later.';
+                } finally {
+                    generateShedIdeaButton.disabled = false;
+                }
+            });
+
+            const generateProjectPlanButton = document.getElementById('generateProjectPlanButton');
+            const projectPlanInput = document.getElementById('projectPlanInput');
+            const projectPlanResponseDiv = document.getElementById('projectPlanResponse');
+
+            generateProjectPlanButton.addEventListener('click', async () => {
+                const prompt = projectPlanInput.value.trim();
+                if (!prompt) {
+                    projectPlanResponseDiv.innerText = 'Please describe your project idea.';
+                    return;
+                }
+
+                projectPlanResponseDiv.innerText = 'Generating project plan...';
+                generateProjectPlanButton.disabled = true;
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: `Break down the following home improvement project for a homeowner into key phases, estimated steps, and important considerations. The project can be about roofing or sheds. Be concise and actionable: ${prompt}` }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    const response = await fetch(apiUrl, {
+                               method: 'POST',
+                               headers: { 'Content-Type': 'application/json' },
+                               body: JSON.stringify(payload)
+                           });
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        projectPlanResponseDiv.innerText = text;
+                    } else {
+                        projectPlanResponseDiv.innerText = 'Sorry, I could not generate a project plan. Please try again.';
+                    }
+                } catch (error) {
+                    console.error('Error calling Gemini API:', error);
+                    projectPlanResponseDiv.innerText = 'An error occurred while connecting to LunAI. Please try again later.';
+                } finally {
+                    generateProjectPlanButton.disabled = false;
+                }
+            });
+
+            const generateMaterialRecButton = document.getElementById('generateMaterialRecButton');
+            const materialRecInput = document.getElementById('materialRecInput');
+            const materialRecResponseDiv = document.getElementById('materialRecResponse');
+
+            generateMaterialRecButton.addEventListener('click', async () => {
+                const prompt = materialRecInput.value.trim();
+                if (!prompt) {
+                    materialRecResponseDiv.innerText = 'Please describe your project and preferences for material recommendations.';
+                    return;
+                }
+
+                materialRecResponseDiv.innerText = 'Generating material recommendations...';
+                generateMaterialRecButton.disabled = true;
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: `Based on this user input: "${prompt}", provide concise, professional material recommendations for a roofing or shed project. Include a few options with brief pros and cons for each, focusing on practicality and value.` }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    const response = await fetch(apiUrl, {
+                               method: 'POST',
+                               headers: { 'Content-Type': 'application/json' },
+                               body: JSON.stringify(payload)
+                           });
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        materialRecResponseDiv.innerText = text;
+                    } else {
+                        materialRecResponseDiv.innerText = 'Sorry, I could not generate material recommendations. Please try again.';
+                    }
+                } catch (error) {
+                    console.error('Error calling Gemini API:', error);
+                    materialRecResponseDiv.innerText = 'An error occurred while connecting to LunAI. Please try again later.';
+                } finally {
+                    generateMaterialRecButton.disabled = false;
+                }
+            });
+
+            const generateInspectionChecklistButton = document.getElementById('generateInspectionChecklistButton');
+            const inspectionChecklistInput = document.getElementById('inspectionChecklistInput');
+            const inspectionChecklistResponseDiv = document.getElementById('inspectionChecklistResponse');
+
+            generateInspectionChecklistButton.addEventListener('click', async () => {
+                const prompt = inspectionChecklistInput.value.trim();
+                if (!prompt) {
+                    inspectionChecklistResponseDiv.innerText = 'Please describe the property you want to inspect (e.g., roof, shed, tiny home).';
+                    return;
+                }
+
+                inspectionChecklistResponseDiv.innerText = 'Generating inspection checklist...';
+                generateInspectionChecklistButton.disabled = true;
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: `Generate a concise, professional, step-by-step inspection checklist for a homeowner for the following property type: ${prompt}. Include what to look for and how to assess condition.` }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    const response = await fetch(apiUrl, {
+                               method: 'POST',
+                               headers: { 'Content-Type': 'application/json' },
+                               body: JSON.stringify(payload)
+                           });
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        inspectionChecklistResponseDiv.innerText = text;
+                    } else {
+                        inspectionChecklistResponseDiv.innerText = 'Sorry, I could not generate an inspection checklist. Please try again.';
+                    }
+                } catch (error) {
+                    console.error('Error calling Gemini API:', error);
+                    inspectionChecklistResponseDiv.innerText = 'An error occurred while connecting to LunAI. Please try again later.';
+                } finally {
+                    generateInspectionChecklistButton.disabled = false;
+                }
+            });
+
+
+            // Invoice Modal & Password Logic
+            const invoiceModal = document.getElementById('invoiceModal');
+            const openInvoiceToolBtn = document.getElementById('openInvoiceToolBtn');
+            const openInvoiceToolBtnMobile = document.getElementById('openInvoiceToolBtnMobile');
+            const closeInvoiceModal = document.getElementById('closeInvoiceModal');
+            const passwordPrompt = document.getElementById('passwordPrompt');
+            const invoiceToolContent = document.getElementById('invoiceToolContent');
+            const invoicePasswordInput = document.getElementById('invoicePasswordInput');
+            const submitPasswordBtn = document.getElementById('submitPasswordBtn');
+            const passwordError = document.getElementById('passwordError');
+            
+            const CORRECT_PASSWORD = 'PLACED2025'; // Change this password as needed
+
+            const showModal = () => {
+                invoiceModal.classList.add('show');
+                passwordPrompt.classList.remove('hidden');
+                invoiceToolContent.classList.add('hidden');
+                passwordError.classList.add('hidden');
+                invoicePasswordInput.value = ''; // Clear input on open
+                invoicePasswordInput.focus();
+                // Set initial invoice date and total when modal is shown, ensure IDs are correct
+                const invoiceDateElement = document.getElementById('invoiceDate');
+                if (invoiceDateElement) {
+                    const today = new Date();
+                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                    invoiceDateElement.textContent = today.toLocaleDateString('en-US', options);
+                }
+                const itemAmountField = document.getElementById('itemAmount');
+                const totalAmountSpan = document.getElementById('totalAmount');
+                if (itemAmountField && totalAmountSpan) {
+                    updateInvoiceTotals(); // Ensure initial total is set for modal
+                }
+
+            };
+
+            const hideModal = () => {
+                invoiceModal.classList.remove('show');
+            };
+
+            openInvoiceToolBtn.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default anchor link behavior
+                showModal();
+            });
+            openInvoiceToolBtnMobile.addEventListener('click', (e) => {
+                e.preventDefault();
+                mobileMenu.classList.add('hidden'); // Hide mobile menu first
+                showModal();
+            });
+            closeInvoiceModal.addEventListener('click', hideModal);
+            invoiceModal.addEventListener('click', (e) => { // Close modal on backdrop click
+                if (e.target === invoiceModal) {
+                    hideModal();
+                }
+            });
+
+            submitPasswordBtn.addEventListener('click', () => {
+                if (invoicePasswordInput.value === CORRECT_PASSWORD) {
+                    passwordPrompt.classList.add('hidden');
+                    invoiceToolContent.classList.remove('hidden');
+                    passwordError.classList.add('hidden');
+                } else {
+                    passwordError.classList.remove('hidden');
+                    invoicePasswordInput.value = ''; // Clear incorrect password
+                }
+            });
+            invoicePasswordInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    submitPasswordBtn.click();
+                }
+            });
+
+
+            // Invoice Print/Email Functionality (now within the modal's context)
+            const printInvoiceBtnModal = document.getElementById('printInvoiceBtnModal');
+            const emailInvoiceBtnModal = document.getElementById('emailInvoiceBtnModal');
+
+            const invoiceNum = document.getElementById('invoiceNum');
+            const invoiceDate = document.getElementById('invoiceDate');
+            const clientName = document.getElementById('clientName');
+            const jobAddress = document.getElementById('jobAddress');
+            const serviceDescription = document.getElementById('serviceDescription');
+            const itemDescription = document.getElementById('itemDescription');
+            const itemAmount = document.getElementById('itemAmount');
+            const invoiceNotes = document.getElementById('invoiceNotes');
+            const totalAmountSpan = document.getElementById('totalAmount');
+
+
+            // Function to update total for invoice
+            const updateInvoiceTotals = () => {
+                let amount = parseFloat(itemAmount.textContent.replace(/[^0-9.-]+/g,"")) || 0;
+                totalAmountSpan.textContent = amount.toFixed(2);
+            };
+
+            // Listen for changes on the item amount to update total
+            if(itemAmount) { // Check if element exists (only visible after password)
+                 itemAmount.addEventListener('input', updateInvoiceTotals);
+            }
+           
+
+            printInvoiceBtnModal.addEventListener('click', () => {
+                window.print();
+            });
+
+            emailInvoiceBtnModal.addEventListener('click', () => {
+                const subject = `Invoice ${invoiceNum.textContent} from Paul's Roofing`;
+                const body = `Dear ${clientName.textContent},\n\n` +
+                             `Please find below the details of your invoice for work completed at ${jobAddress.textContent}:\n\n` +
+                             `Invoice #: ${invoiceNum.textContent}\n` +
+                             `Date: ${invoiceDate.textContent}\n\n` +
+                             `Description of Work: ${serviceDescription.textContent}\n\n` +
+                             `${itemDescription.textContent}: $${itemAmount.textContent}\n\n` +
+                             `TOTAL AMOUNT DUE: $${totalAmountSpan.textContent}\n\n` +
+                             `Notes: ${invoiceNotes.textContent}\n\n` +
+                             `Thank you for choosing Paul's Roofing.\n\n` +
+                             `Sincerely,\nPaul's Roofing Team\nPowered by LunAI at PLACED. Your home, our hands.`;
+                
+                const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                window.location.href = mailtoLink;
+            });
+        });
+    </script>
+</body>
+</html>
